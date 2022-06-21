@@ -1,13 +1,20 @@
 import React from 'react';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux'; //provider로 값 전달
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import rootReducer from './modules';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
+const store = createStore(rootReducer, composeWithDevTools());
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>
 );
 
