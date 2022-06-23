@@ -1,64 +1,79 @@
+// 액션타입 정하기
+const CHANG_TITLE = "memo/CHANG_TITLE";
+const CHANG_TEXT = "memo/CHANG_TEXT";
+const INSERT = "memo/INSERT";
+const REMOVE = "memo/REMOVE";
 
-const CHANGE_INPUT = 'todo/CHANGE_INPUT';
-const INSERT = 'todo/INSERT_TITLE';
-const REMOVE = 'todo/REMOVE'; 
-
-
-export const changeInput = (input) => ({
-  type : CHANGE_INPUT,
-  input
+// 액션 함수 작성 >> dispatch때 사용하기위해 export
+export const changTitle = (input) => ({
+  type: CHANG_TITLE,
+  input, // action.input 이라고 작성했을때 그 안의 내용 사용가능
 });
+export const changText = (input) => ({
+  type: CHANG_TEXT,
+  input, // action.input 이라고 작성했을때 그 안의 내용 사용가능
+});
+//INSERT 시에 id 값이 필요
 let id = 3;
-export const insert = (title, text) => ({
-  type : INSERT,
-  todo : {
-    id : id++,
-    title,
-    text
-  }
+// title과 text의 값이 객체로 들어옴
+export const insert = (memo) => ({
+  type: INSERT,
+  memo: {
+    id: id++,
+    title: memo.title,
+    text: memo.text,
+  },
 });
 export const remove = (id) => ({
-  type : REMOVE,
-  id
+  type: REMOVE,
+  id,
 });
 
-const initialState = {
-  input : '',
-  todo : [
+// 초기 state 값 작성
+const initalState = {
+  title: "",
+  text: "",
+  memos: [
     {
-      id : 1,
-      title : '첫번째',
-      text : '첫번째 할일입니다.',
+      id: 1,
+      title: "첫번째",
+      text: "첫번째 메모입니다",
     },
     {
-      id : 2,
-      title : '두번쨰',
-      text : '두번째 할일입니다.',
-    }
-  ]
+      id: 2,
+      title: "두번째",
+      text: "두번째 메모입니다",
+    },
+  ],
 };
 
-function todo(state = initialState, action) {
-  switch(action.type) {
-    case CHANGE_INPUT :
-      return{
+// state 값을 변경하는 reducer 함수 작성
+// >> store 사용하기위해 export default
+function memo(state = initalState, action) {
+  switch (action.type) {
+    case CHANG_TITLE:
+      return {
         ...state,
-        input : action.input
+        title: action.input,
       };
-    case INSERT :
-      return{
+    case CHANG_TEXT:
+      return {
         ...state,
-        todo : state.todo.concat(String(action.todo))
+        text: action.input,
       };
-    case REMOVE :
-      return{
+    case INSERT:
+      return {
         ...state,
-        todo : state.todo.filter(
-          (todo) => todo.id !== action.id
-        )
+        memos: state.memos.concat(action.memo),
       };
-      default:
-        return state;
-  };
-};
-export default todo;
+    case REMOVE:
+      return {
+        ...state,
+        memos: state.memos.filter((memo) => memo.id !== action.id),
+      };
+    default:
+      return state;
+  }
+}
+
+export default memo;

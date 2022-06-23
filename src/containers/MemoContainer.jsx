@@ -1,21 +1,22 @@
-import { useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import Todos from '../components/Memo'
-import { changeInput, remove, insert } from '../modules/memo'
+import Memo from "../components/Memo";
+import { useDispatch, useSelector } from "react-redux";
+import { useCallback } from "react";
+import { changText, changTitle, insert, remove } from "../modules/memo";
 
-const TodosContainer = () => {
-  const { inputTitle, inputText, todo } = useSelector((state) => (
-    {
-    inputTitle : state.todo.title,
-    inputText : state.todo.text,
-    todo : state.todo.todo
-    }
-  ));
+const MemoContainer = () => {
+  const { title, text, memos } = useSelector((state) => ({
+    title: state.memo.title,
+    text: state.memo.text,
+    memos: state.memo.memos,
+  }));
+
   const dispatch = useDispatch();
-  const onChangeInput = useCallback((input) => dispatch(changeInput(input)),[dispatch]);
-  const onInsert = useCallback((title,text) => dispatch(insert(title,text)),[dispatch]);
-  const onRemove = useCallback((id) => dispatch(remove(id)),[dispatch]);
-  return <Todos inputText={inputText} inputTitle={inputTitle} todo={todo} onChangeInput={onChangeInput}
-  onRemove={onRemove} onInsert={onInsert}/>
+  const onChangTitle = useCallback((input) => dispatch(changTitle(input)), [dispatch]);
+  const onChangText = useCallback((input) => dispatch(changText(input)), [dispatch]);
+  const onInsert = useCallback((memo) => dispatch(insert(memo)), [dispatch]);
+  const onRemove = useCallback((id) => dispatch(remove(id)), [dispatch]);
+
+  return <Memo title={title} text={text} memos={memos} onChangText={onChangText} onChangTitle={onChangTitle} onInsert={onInsert} onRemove={onRemove} />;
 };
-export default TodosContainer;
+
+export default MemoContainer;

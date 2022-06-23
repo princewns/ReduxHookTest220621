@@ -1,10 +1,10 @@
 import './App.css';
-import TodosContainer from './containers/MemoContainer';
+import MemoContainer from './containers/MemoContainer';
 
 function App() {
   return (
     <div className="App">
-      <TodosContainer/>
+      <MemoContainer/>
     </div>
   );
 }
